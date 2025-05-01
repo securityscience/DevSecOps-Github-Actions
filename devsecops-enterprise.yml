@@ -1,0 +1,186 @@
+name: Secure CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/my-org/custom-secure-runner:latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      COVERITY_TOKEN: ${{ secrets.COVERITY_TOKEN }}
+      MEND_API_KEY: ${{ secrets.MEND_API_KEY }}
+      JFROG_API_KEY: ${{ secrets.JFROG_API_KEY }}
+      JFROG_URL: ${{ secrets.JFROG_URL }}
+      AQUA_CONSOLE: ${{ secrets.AQUA_CONSOLE }}
+      AQUA_USER: ${{ secrets.AQUA_USER }}
+      AQUA_PASSWORD: ${{ secrets.AQUA_PASSWORD }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+      EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v1.1.0
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
+      - name: Download Coverity Tools
+        run: |
+          wget https://scan.coverity.com/download/linux64 --post-data "token=${COVERITY_TOKEN}&project=YourProjectName" -O coverity_tool.tgz
+          tar xzf coverity_tool.tgz
+
+      - name: Coverity Build and Analyze
+        run: |
+          export PATH=$PATH:$PWD/cov-analysis*/bin
+          cov-build --dir cov-int make
+          tar czvf project.tgz cov-int
+
+      - name: Upload to Coverity
+        run: |
+          curl --form token=$COVERITY_TOKEN \
+               --form email=you@example.com \
+               --form file=@project.tgz \
+               --form version="CI build" \
+               --form description="CI Build" \
+               https://scan.coverity.com/builds?project=YourProjectName
+
+      - name: Mend SCA Scan
+        run: |
+          curl -LJO https://downloads.mend.io/cli/linux_amd64/mend
+          chmod +x mend
+          ./mend sca --api-key "${MEND_API_KEY}" --product "MyProduct" --project "MyProject"
+
+      - name: Build Docker Image
+        run: docker build -t myapp:latest .
+
+      - name: Trivy - Image Vulnerability Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: myapp:latest
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+
+      - name: Trivy - License Compliance Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: license
+          format: table
+          exit-code: '1'
+
+      - name: AquaSec Enterprise Scan
+        run: |
+          curl -o scannercli https://${{ secrets.AQUA_CONSOLE }}/scannercli \
+            --user ${{ secrets.AQUA_USER }}:${{ secrets.AQUA_PASSWORD }}
+          chmod +x scannercli
+          ./scannercli scan \
+            --host ${{ secrets.AQUA_CONSOLE }} \
+            --user ${{ secrets.AQUA_USER }} \
+            --password ${{ secrets.AQUA_PASSWORD }} \
+            --local myapp:latest \
+            --register \
+            --policy "Default Image Assurance Policy" \
+            --htmlfile aqua-scan-report.html
+
+      - name: Upload AquaSec Scan Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: aqua-scan-report
+          path: aqua-scan-report.html
+
+      - name: JFrog CLI Install
+        run: |
+          curl -fL https://getcli.jfrog.io | sh && sudo mv jfrog /usr/local/bin/
+
+      - name: JFrog Xray Scan
+        run: |
+          jfrog rt c default --url="$JFROG_URL" --apikey="$JFROG_API_KEY"
+          jfrog rt u "*.jar" generic-local/ --build-name=my-build --build-number=1
+          jfrog rt bs my-build 1
+          jfrog xr bce my-build 1
+
+      - name: Send Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Build and scan completed for commit ${{ github.sha }}'
+
+      - name: Send Teams Notification
+        run: |
+          curl -H 'Content-Type: application/json' -d '{"text": "Build and scan completed for commit ${{ github.sha }}"}' ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.example.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Build and Scan Completed
+          body: Build and scan completed for commit ${{ github.sha }}
+          to: ${{ secrets.EMAIL_RECIPIENTS }}
+          from: CI Pipeline <ci@example.com>
+
+  deploy:
+    needs: build-and-scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Kubernetes Context (AKS)
+        run: az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+
+      - name: Deploy to AKS
+        run: kubectl apply -f k8s/aks-deployment.yaml
+
+      - name: Setup GCP Credentials
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy myapp \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/myapp:latest \
+            --platform managed \
+            --region ${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster my-cluster \
+            --service my-service \
+            --force-new-deployment
