@@ -1,4 +1,4 @@
-name: Docker Scout
+name: Docker Scout Scan
 
 on: [push]
 
