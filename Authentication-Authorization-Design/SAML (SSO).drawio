@@ -1,0 +1,152 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0" version="28.0.7">
+  <diagram name="Page-1" id="gVQ29I2tpjpghWNaNWH4">
+    <mxGraphModel dx="3626" dy="725" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-3" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Security Assertion Markup Language / SAML (Single Sign-On / SSO)&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;A Resource Owner is using its Identity Provider account to access Service Provider&#39;s application or service as a form of single sign-on.&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-2160" y="40" width="600" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-4" value="&lt;div&gt;Service Provider Client App&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="-2040" y="160" width="100" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-19" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-4" vertex="1">
+          <mxGeometry x="45" y="100" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-37" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-4" vertex="1">
+          <mxGeometry x="45" y="300" width="10" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-41" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-4" vertex="1">
+          <mxGeometry x="45" y="400" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-5" value="Identity Provider (IdP)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="-1750" y="160" width="100" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-21" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-5" vertex="1">
+          <mxGeometry x="45" y="100" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-25" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-5" vertex="1">
+          <mxGeometry x="40" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-30" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-5" vertex="1">
+          <mxGeometry x="50" y="200" width="10" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-31" value="Validate Credentials" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="yT4D8Bp4vNeKoLi51JnP-5" source="yT4D8Bp4vNeKoLi51JnP-30" target="yT4D8Bp4vNeKoLi51JnP-30" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="340" as="sourcePoint" />
+            <Array as="points" />
+            <mxPoint x="115" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-7" value="Service Provider GCP Service" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="-1550" y="160" width="100" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-42" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-7" vertex="1">
+          <mxGeometry x="45" y="400" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-38" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-7" vertex="1">
+          <mxGeometry x="45" y="300" width="10" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mheXvJhTCF1LDH-xaIck-7" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="yT4D8Bp4vNeKoLi51JnP-7">
+          <mxGeometry x="50" y="315" width="10" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mheXvJhTCF1LDH-xaIck-8" value="&lt;div&gt;Validate Signature,&lt;/div&gt;&lt;div&gt;Audience, Conditions,&lt;/div&gt;&lt;div&gt;Extract Attributes&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="yT4D8Bp4vNeKoLi51JnP-7" source="mheXvJhTCF1LDH-xaIck-7" target="mheXvJhTCF1LDH-xaIck-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="410" as="sourcePoint" />
+            <Array as="points" />
+            <mxPoint x="295" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-47" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-7" vertex="1">
+          <mxGeometry x="50" y="420" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-15" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" parent="1" vertex="1">
+          <mxGeometry x="-2160" y="160" width="20" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-17" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-15" vertex="1">
+          <mxGeometry x="5" y="100" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-24" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yT4D8Bp4vNeKoLi51JnP-15" vertex="1">
+          <mxGeometry x="5" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-18" value="Request Access" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-17" target="yT4D8Bp4vNeKoLi51JnP-19" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-2100" y="230" as="sourcePoint" />
+            <mxPoint x="-2020" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-22" value="&lt;div&gt;User Redirected To IdP With SAML AuthnRequest&lt;/div&gt;&lt;div&gt;[Issuer (SP EntityID),&amp;nbsp;NameIDPolicy,&lt;/div&gt;&lt;div&gt;AssertionConsumerServiceURL (Callback URL),&amp;nbsp;&lt;br&gt;AuthnContextClassRef, ID, IssueInstant]&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=classic;curved=0;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;endFill=1;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-19" target="yT4D8Bp4vNeKoLi51JnP-21" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-2010" y="250" as="sourcePoint" />
+            <mxPoint x="-1820" y="250" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-26" value="Ask to Login" style="html=1;verticalAlign=bottom;endArrow=none;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;startArrow=classic;startFill=1;endFill=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;shadow=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-24" target="yT4D8Bp4vNeKoLi51JnP-25" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-2130" y="270" as="sourcePoint" />
+            <mxPoint x="-1740" y="309.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-27" value="Login Credentials (User &amp;amp; Password)" style="html=1;verticalAlign=bottom;endArrow=open;curved=0;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;startArrow=none;startFill=0;endFill=0;exitX=1;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;shadow=0;dashed=1;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-24" target="yT4D8Bp4vNeKoLi51JnP-25" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-2030" y="590" as="sourcePoint" />
+            <mxPoint x="-1645" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-36" value="&lt;div&gt;SAML Response (Signed by IdP)&lt;/div&gt;&lt;div&gt;[Assertion (Signed): Subject (NameID),&lt;br&gt;Conditions (Validity, Audience),&lt;/div&gt;&lt;div&gt;AuthnStatement (Auth Context),&lt;br&gt;AttributeStatement (User Attributes);&lt;br&gt;Signature]&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=none;curved=0;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;startArrow=open;startFill=0;endFill=0;shadow=0;dashed=1;exitX=1;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-19" target="yT4D8Bp4vNeKoLi51JnP-21" edge="1">
+          <mxGeometry x="0.0026" width="80" relative="1" as="geometry">
+            <mxPoint x="-1930" y="410" as="sourcePoint" />
+            <mxPoint x="-1545" y="410" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-39" value="Forward SAML Response For Validation" style="html=1;verticalAlign=bottom;endArrow=classic;curved=0;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;endFill=1;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-37" target="yT4D8Bp4vNeKoLi51JnP-38" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-1910" y="550" as="sourcePoint" />
+            <mxPoint x="-1720" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-40" value="&lt;div&gt;Return Access &amp;amp; Refresh Tokens (JWT)&lt;/div&gt;&lt;div&gt;[Access Decision (Session Token, User Details, Roles, Permission)]&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=none;curved=0;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;startArrow=open;startFill=0;endFill=0;shadow=0;dashed=1;exitX=1;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-37" target="yT4D8Bp4vNeKoLi51JnP-38" edge="1">
+          <mxGeometry x="0.0026" width="80" relative="1" as="geometry">
+            <mxPoint x="-1890" y="610" as="sourcePoint" />
+            <mxPoint x="-1700" y="610" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-43" value="&lt;div&gt;Access Token (JWT)&lt;/div&gt;&lt;div&gt;Request Data&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=classic;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;endFill=1;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-41" target="yT4D8Bp4vNeKoLi51JnP-42" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-2010" y="580" as="sourcePoint" />
+            <mxPoint x="-1820" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-46" value="Return Requested Data" style="html=1;verticalAlign=bottom;endArrow=none;curved=0;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;startArrow=open;startFill=0;endFill=0;shadow=0;dashed=1;exitX=1;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-41" target="yT4D8Bp4vNeKoLi51JnP-42" edge="1">
+          <mxGeometry x="0.0026" width="80" relative="1" as="geometry">
+            <mxPoint x="-1910" y="700" as="sourcePoint" />
+            <mxPoint x="-1720" y="700" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-49" value="Verify Access Token (JWT)" style="html=1;verticalAlign=bottom;endArrow=classic;curved=0;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=5;entryPerimeter=0;endFill=1;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-47" target="yT4D8Bp4vNeKoLi51JnP-48" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-1910" y="595" as="sourcePoint" />
+            <mxPoint x="-1615" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-50" value="Verifed" style="html=1;verticalAlign=bottom;endArrow=none;curved=0;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;startArrow=open;startFill=0;endFill=0;shadow=0;dashed=1;exitX=1;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" parent="1" source="yT4D8Bp4vNeKoLi51JnP-47" target="yT4D8Bp4vNeKoLi51JnP-48" edge="1">
+          <mxGeometry x="0.0026" width="80" relative="1" as="geometry">
+            <mxPoint x="-1780" y="640" as="sourcePoint" />
+            <mxPoint x="-1595" y="710" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mheXvJhTCF1LDH-xaIck-1" value="GCP IAM" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="-1350" y="160" width="100" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yT4D8Bp4vNeKoLi51JnP-48" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="mheXvJhTCF1LDH-xaIck-1" vertex="1">
+          <mxGeometry x="45" y="420" width="10" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
