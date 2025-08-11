@@ -1,23 +1,23 @@
 # mTLS (Mutual TLS) Sample Implementation
 
 
-## How it works in mTLS trust:
+## How it Works in mTLS Trust:
 
 * **Both certs are signed by the same CA**
   or
 * Both certs are signed by **different CAs**, but each side has the **other CA's root (or intermediate) certificate** in its trust store.
 
-1. **Server validation**:
+1. **Server Validation**:
 
    * The client verifies the **server’s certificate chain** using the **CA(s)** it trusts.
    * If the server’s cert isn’t signed by a trusted CA → handshake fails.
 
-2. **Client validation**:
+2. **Client Validation**:
 
    * The server verifies the **client’s certificate chain** using the **CA(s)** it’s configured to trust (`ssl_client_certificate` in Nginx, `client_ca_list` in Apache, etc.).
    * If the client’s cert isn’t signed by a trusted CA → handshake fails.
 
-✅ **Same CA scenario** (simplest)
+✅ **Same CA scenario** (Simplest)
 
 ```
 CA.crt
@@ -43,7 +43,7 @@ CA_Client.crt  → trusts client certs
 * If each side has its own self-signed cert and they don’t exchange & trust each other’s cert/CA, mTLS won’t work.
 
 
-## 1) High-level requirements
+## 1) High-level Requirements
 
 * A **Private CA** (for test/dev) or a CA under developer's control (production: managed PKI like Vault/ACM Private CA).
 * A **Server certificate** signed by that CA (EKU = `serverAuth`, SAN contains developer's server name).
@@ -229,6 +229,7 @@ Created the following: `ca.crt`, `server.key`, `server.crt`, `client.crt`, `clie
   ```
   C:\nginx
   ```
+  
 * Inside are as follows:
 
   ```
@@ -238,7 +239,7 @@ Created the following: `ca.crt`, `server.key`, `server.crt`, `client.crt`, `clie
   ```
 
 
-## 4) Server Setup — Nginx (TLS termination + Require Client Certs) + Backend Example
+## 4) Server Setup — Nginx (TLS Termination + Require Client Certs) + Backend Example
 
 **A. Nginx Config (Terminate TLS, Require Client Certs, Forward Client Cert to Backend):**
 
@@ -323,7 +324,7 @@ https.createServer(options, (req, res) => {
 
 Run it with: `node server.js`
 
-**D. Testing server with curl**
+**D. Testing Server with `curl`**
 
 ```bash
 ## using cert+key files
@@ -352,7 +353,7 @@ print("Body:", response.text)
 ```
 
 
-## 5) iOS — installing the CA and client certificate on device (Manual steps)
+## 5) iOS — Installing the CA and Client Certificate on Device (Manual Steps)
 
 ### A. Install Root CA (`ca.crt`)
 
@@ -363,7 +364,7 @@ print("Body:", response.text)
 
 > Simulator: open Safari in the simulator and browse to the CA URL and tap to install. Note: Simulator stores certs per-sim and doesn't have Secure Enclave.
 
-### B. Install the client PKCS#12 (`client.p12`)
+### B. Install the Client PKCS#12 (`client.p12`)
 
 1. Host `client.p12` (or AirDrop it to the device).
 2. Tap the `client.p12` file on the device → install — enter the PKCS#12 password (e.g., `MyP12Passw0rd`).
@@ -372,7 +373,7 @@ print("Body:", response.text)
 **Important:** If a developer plans to do automated provisioning, prefer generating private key on device + CSR (recommended). Installing a `.p12` imports private key into Keychain (not ideal for scaling; ok for testing).
 
 
-## 6) iOS sample app (Swift) — import or use installed identity + perform mTLS request
+## 6) iOS Sample App (Swift) — import or use installed identity + perform mTLS request
 
 This Swift code demonstrates:
 
@@ -474,7 +475,7 @@ task.resume()
 * If the server uses a test CA, make sure the CA is trusted on the device (installed as root CA). Otherwise iOS will block the connection (unless the developer creates ATS exceptions — not recommended).
 
 
-## 7) Testing & troubleshooting checklist
+## 7) Testing & Troubleshooting Checklist
 
 * `curl` from desktop: verify server accepts the client certs.
 
@@ -515,7 +516,7 @@ task.resume()
       openssl pkcs12 -info -in client.p12
       ```
 
-## 8) Production considerations / hardening
+## 8) Production Considerations / Hardening
 
 * **Do not embed a shared `.p12`** in distributed apps — generate per-device certs.
 * **Best**: generate key pair on device (SecKeyCreateRandomKey), create CSR on device, send CSR over authenticated channel to CA signing endpoint, receive client cert — private key never leaves device.
@@ -527,7 +528,7 @@ task.resume()
 * Restrict accepted client certs via EKU + SAN + subject DN checks at application level when necessary.
 
 
-## 9) Quick Android note (if a developer wants parity)
+## 9) Quick Android Note (if a developer wants parity)
 
 * Use hardware-backed Keystore (if available). Generate keypair on device and produce CSR to server for signing.
 * Example of creating `SSLContext` with PKCS12:
@@ -545,3 +546,10 @@ OkHttpClient client = new OkHttpClient.Builder()
   .sslSocketFactory(context.getSocketFactory(), (X509TrustManager)trustManager)
   .build();
 ```
+
+## Contribute
+
+Share ideas, recommendations, and suggestions to:
+
+- Contact: [RnD@security-science.com](mailto:RnD@security-science.com)
+- Or [https://www.security-science.com/contact](https://www.security-science.com/contact)
