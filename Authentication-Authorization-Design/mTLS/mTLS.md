@@ -316,13 +316,10 @@ Run it with: `node server.js`
 
 ```bash
 ## using cert+key files
-curl --cacert ca.crt --cert client.crt --key client.key https://localhost:8443/
-
-# OR
-curl --cacert ca.crt --cert client.p12:MyP12Passw0rd --cert-type P12 https://localhost:443
+curl --cacert ca.crt --cert client.crt --key client.key https://localhost:443/
 
 ## using p12 (if openssl compiled curl supports it)
-curl --cacert ca.crt --cert client.p12:MyP12Passw0rd --cert-type P12 https://localhost:8443/
+curl --cacert ca.crt --cert client.p12:MyP12Passw0rd --cert-type P12 https://localhost:443/
 ```
 
 ** E. Testing with Python
@@ -470,7 +467,7 @@ task.resume()
 
 * `curl` from desktop: verify server accepts the client certs.
 
-  * `curl --cacert ca.crt --cert client.crt --key client.key https://localhost:8443/`
+  * `curl --cacert ca.crt --cert client.crt --key client.key https://localhost:443/`
 * On Nginx test, check `$ssl_client_verify` variable (can print in logs) and `$ssl_client_s_dn` to inspect DNs.
 * iOS:
 
