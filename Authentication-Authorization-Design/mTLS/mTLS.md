@@ -45,12 +45,12 @@ CA_Client.crt  → trusts client certs
 
 ## 1) High-level requirements
 
-* A **Private CA** (for test/dev) or a CA you control (production: managed PKI like Vault/ACM Private CA).
-* A **Server certificate** signed by that CA (EKU = `serverAuth`, SAN contains your server name).
-* **Client certificate(s)** signed by the same CA (EKU = `clientAuth`). For iOS testing you usually create a `.p12` bundle (cert + private key).
+* A **Private CA** (for test/dev) or a CA under developer's control (production: managed PKI like Vault/ACM Private CA).
+* A **Server certificate** signed by that CA (EKU = `serverAuth`, SAN contains developer's server name).
+* **Client certificate(s)** signed by the same CA (EKU = `clientAuth`). For iOS testing, usually a `.p12` bundle (cert + private key) needs to be created.
 * Server that **requires** client certs (Nginx/Envoy/Node/etc).
 * Tools: `openssl`, `nginx` (or Node), `curl`, Xcode (for iOS app), an iOS device (simulator ok for handshake logic — physical device needed to test hardware-backed key storage).
-* For production: certificate issuance/rotation/provisioning system (API + device attestation) so you don’t embed a single client key in the app.
+* For production: certificate issuance/rotation/provisioning system (API + device attestation) must be in-placed so a developer don’t embed a single client key in the app.
 
 
 ## 2) Create CA, Server Cert, Client Cert (using OpenSSL)
@@ -247,7 +247,7 @@ server {
 
     location / {
         return 200 "Hello, mTLS client!\n";
-        ## forward cert to backend if you want the app logic to inspect fields
+        ## forward cert to backend if a developers want the app logic to inspect fields
         # proxy_set_header X-SSL-Client-Cert $ssl_client_cert;
         # proxy_pass http://127.0.0.1:3000;
     }
@@ -304,7 +304,7 @@ https.createServer(options, (req, res) => {
     res.end('Client certificate required or invalid');
     return;
   }
-  // client is authorized — you can inspect cert.subject, cert.issuer, etc.
+  // client is authorized — a developer can inspect cert.subject, cert.issuer, etc.
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end(`Hello ${cert.subject.CN || 'client'}\n`);
 }).listen(8443, () => console.log('mTLS server listening on 8443'));
@@ -351,7 +351,7 @@ print("Body:", response.text)
 1. Host `ca.crt` on a local web server (or email it).
 2. On iOS device open Safari and open the `ca.crt` URL.
 3. iOS will prompt to install a profile — follow the prompts to install.
-4. After install, enable full trust: `Settings → General → About → Certificate Trust Settings` → toggle your Root CA to **ON**.
+4. After install, enable full trust: `Settings → General → About → Certificate Trust Settings` → toggle the Root CA to **ON**.
 
 > Simulator: open Safari in the simulator and browse to the CA URL and tap to install. Note: Simulator stores certs per-sim and doesn't have Secure Enclave.
 
@@ -361,7 +361,7 @@ print("Body:", response.text)
 2. Tap the `client.p12` file on the device → install — enter the PKCS#12 password (e.g., `MyP12Passw0rd`).
 3. Confirm installation. The identity will appear as an installed profile (Settings → General → VPN & Device Management → Profiles).
 
-**Important:** If you plan to do automated provisioning, prefer generating private key on device + CSR (recommended). Installing a `.p12` imports private key into Keychain (not ideal for scaling; ok for testing).
+**Important:** If developer plans to do automated provisioning, prefer generating private key on device + CSR (recommended). Installing a `.p12` imports private key into Keychain (not ideal for scaling; ok for testing).
 
 
 ## 6) iOS sample app (Swift) — import or use installed identity + perform mTLS request
@@ -431,7 +431,7 @@ class MTLSDelegate: NSObject, URLSessionDelegate {
             return
         }
 
-        // Default handling for server trust (you can pin here)
+        // Default handling for server trust (a developer can pin here)
         completionHandler(.performDefaultHandling, nil)
     }
 }
@@ -451,7 +451,7 @@ guard let p12url = Bundle.main.url(forResource: "client", withExtension: "p12"),
 let delegate = MTLSDelegate(identity: identity, certs: certs)
 let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: .main)
 
-// call your server (if using nginx termination on 443)
+// call developer server (if using nginx termination on 443)
 let url = URL(string: "https://api.example.local/")!
 let task = session.dataTask(with: url) { data, resp, err in
     if let err = err { print("request error:", err) ; return }
@@ -462,8 +462,8 @@ task.resume()
 
 **Notes:**
 
-* If you installed `.p12` into the system Keychain (via Settings), you can find the identity via a Keychain query (search `kSecClassIdentity` with attributes).
-* If the server uses a test CA, make sure the CA is trusted on the device (installed as root CA). Otherwise iOS will block the connection (unless you create ATS exceptions — not recommended).
+* If the developer installed `.p12` into the system Keychain (via Settings), the developer can find the identity via a Keychain query (search `kSecClassIdentity` with attributes).
+* If the server uses a test CA, make sure the CA is trusted on the device (installed as root CA). Otherwise iOS will block the connection (unless the developer creates ATS exceptions — not recommended).
 
 
 ## 7) Testing & troubleshooting checklist
@@ -478,7 +478,7 @@ task.resume()
   * If using simulator: import CA into simulator and install `.p12` to simulator.
   * For real device: watch device logs in Console.app; see network connection rejections in the system logs.
 * If iOS says “untrusted certificate”: CA not trusted or wrong SAN (hostname mismatch).
-* If server rejects client: server’s trust store doesn’t contain your CA or Nginx/Node not configured to require client certs.
+* If server rejects client: server’s trust store doesn’t contain developer's CA or Nginx/Node not configured to require client certs.
 * For detailed server-side certificate info in Node: `req.socket.getPeerCertificate(true)`.
 
 
@@ -494,7 +494,7 @@ task.resume()
 * Restrict accepted client certs via EKU + SAN + subject DN checks at application level when necessary.
 
 
-## 9) Quick Android note (if you want parity)
+## 9) Quick Android note (if a developer wants parity)
 
 * Use hardware-backed Keystore (if available). Generate keypair on device and produce CSR to server for signing.
 * Example of creating `SSLContext` with PKCS12:
