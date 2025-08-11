@@ -1,4 +1,46 @@
-# mTLS (Mutual TLS) Implementation
+# mTLS (Mutual TLS) Sample Implementation
+
+
+## How it works in mTLS trust:
+
+* **Both certs are signed by the same CA**
+  or
+* Both certs are signed by **different CAs**, but each side has the **other CA's root (or intermediate) certificate** in its trust store.
+
+1. **Server validation**:
+
+   * The client verifies the **server’s certificate chain** using the **CA(s)** it trusts.
+   * If the server’s cert isn’t signed by a trusted CA → handshake fails.
+
+2. **Client validation**:
+
+   * The server verifies the **client’s certificate chain** using the **CA(s)** it’s configured to trust (`ssl_client_certificate` in Nginx, `client_ca_list` in Apache, etc.).
+   * If the client’s cert isn’t signed by a trusted CA → handshake fails.
+
+✅ **Same CA scenario** (simplest)
+
+```
+CA.crt
+├── server.crt (signed by CA)
+└── client.crt (signed by CA)
+```
+
+Both sides only need to trust `CA.crt`.
+
+✅ **Different CA scenario**
+
+```
+CA_Server.crt  → trusts server certs
+CA_Client.crt  → trusts client certs
+```
+
+* Server must trust `CA_Client.crt`
+* Client must trust `CA_Server.crt`
+
+
+❌ **Self-signed certs without sharing CA**
+
+* If each side has its own self-signed cert and they don’t exchange & trust each other’s cert/CA, mTLS won’t work.
 
 
 ## 1) High-level requirements
@@ -36,6 +78,19 @@ extendedKeyUsage = serverAuth
 keyUsage = digitalSignature, keyEncipherment
 ```
 
+Commands:
+
+```bash
+# Create Server Key
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr \
+  -subj "/C=US/ST=State/L=City/O=MyOrg/CN=api.example.local"
+
+# Create Server CSR
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out server.crt -days 825 -sha256 -extfile server_ext.cnf
+```
+
 (OR) Create Subject Alternative Name (SAN) `server_SAN.cnf` with:
 
 ```
@@ -56,6 +111,7 @@ CN = localhost
 
 [ req_ext ]
 subjectAltName = @alt_names
+extendedKeyUsage = serverAuth
 
 [ alt_names ]
 DNS.1   = localhost
@@ -65,16 +121,7 @@ IP.1    = 127.0.0.1
 Commands:
 
 ```bash
-# Create Server Key
-openssl genrsa -out server.key 2048
-openssl req -new -key server.key -out server.csr \
-  -subj "/C=US/ST=State/L=City/O=MyOrg/CN=api.example.local"
-
-# Create Server CSR
-openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
-  -out server.crt -days 825 -sha256 -extfile server_ext.cnf
-
-# (OR) SAN-Based
+# SAN-Based
 # Create Server CSR
 openssl req -new -key server.key -out server.csr -config server_SAN.cnf
 
@@ -106,6 +153,40 @@ openssl req -new -key client.key -out client.csr \
 # Sign Client Certificate
 openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
   -out client.crt -days 365 -sha256 -extfile client_ext.cnf
+```
+
+(OR) Create Subject Alternative Name (SAN) `client_SAN.cnf` with:
+```
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+req_extensions     = req_ext
+distinguished_name = dn
+
+[ dn ]
+C  = US
+ST = State
+L  = City
+O  = MyOrg
+OU = IT
+CN = test-client
+
+[ req_ext ]
+extendedKeyUsage = clientAuth
+```
+
+Commands:
+
+```bash
+# SAN-Based
+# Create Client CSR
+openssl req -new -key client.key -out client.csr -config client_SAN.cnf
+
+# Sign Client Certificate
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key \
+  -CAcreateserial -out client.crt -days 365 -sha256 \
+  -extfile client_SAN.cnf -extensions req_ext
 ```
 
 **4. Create a PKCS#12 bundle for iOS (.p12)**
@@ -236,6 +317,9 @@ Run it with: `node server.js`
 ```bash
 ## using cert+key files
 curl --cacert ca.crt --cert client.crt --key client.key https://localhost:8443/
+
+# OR
+curl --cacert ca.crt --cert client.p12:MyP12Passw0rd --cert-type P12 https://localhost:443
 
 ## using p12 (if openssl compiled curl supports it)
 curl --cacert ca.crt --cert client.p12:MyP12Passw0rd --cert-type P12 https://localhost:8443/
