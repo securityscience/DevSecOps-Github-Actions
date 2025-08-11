@@ -198,9 +198,20 @@ openssl pkcs12 -export \
   -in client.crt \
   -certfile ca.crt \
   -passout pass:MyP12Passw0rd
+
+# (OR) Exporting the .p12 using explicit legacy algorithms compatible with iOS  
+openssl pkcs12 -export \
+  -out client_ios.p12 \
+  -inkey client.key \
+  -in client.crt \
+  -certfile ca.crt \
+  -passout pass:MyP12Passw0rd \
+  -macalg sha1 \
+  -keypbe PBE-SHA1-3DES \
+  -certpbe PBE-SHA1-3DES
 ```
 
-Created the follwing: `ca.crt`, `server.key`, `server.crt`, `client.crt`, `client.key`, `client.p12`.
+Created the following: `ca.crt`, `server.key`, `server.crt`, `client.crt`, `client.key`, `client.p12`.
 
 
 ## 3) Install Nginx (Windows)
@@ -358,7 +369,7 @@ print("Body:", response.text)
 2. Tap the `client.p12` file on the device → install — enter the PKCS#12 password (e.g., `MyP12Passw0rd`).
 3. Confirm installation. The identity will appear as an installed profile (Settings → General → VPN & Device Management → Profiles).
 
-**Important:** If developer plans to do automated provisioning, prefer generating private key on device + CSR (recommended). Installing a `.p12` imports private key into Keychain (not ideal for scaling; ok for testing).
+**Important:** If a developer plans to do automated provisioning, prefer generating private key on device + CSR (recommended). Installing a `.p12` imports private key into Keychain (not ideal for scaling; ok for testing).
 
 
 ## 6) iOS sample app (Swift) — import or use installed identity + perform mTLS request
@@ -470,14 +481,39 @@ task.resume()
   * `curl --cacert ca.crt --cert client.crt --key client.key https://localhost:443/`
 * On Nginx test, check `$ssl_client_verify` variable (can print in logs) and `$ssl_client_s_dn` to inspect DNs.
 * iOS:
-
   * Ensure CA root appears in `Settings → General → About → Certificate Trust Settings`.
   * If using simulator: import CA into simulator and install `.p12` to simulator.
   * For real device: watch device logs in Console.app; see network connection rejections in the system logs.
 * If iOS says “untrusted certificate”: CA not trusted or wrong SAN (hostname mismatch).
 * If server rejects client: server’s trust store doesn’t contain developer's CA or Nginx/Node not configured to require client certs.
 * For detailed server-side certificate info in Node: `req.socket.getPeerCertificate(true)`.
+* Mismatched key and cert
+   * The private key (`client.key`) must exactly match the certificate (`client.crt`) inside `.p12`.
+   * Verify with:
+  
+     ```bash
+     openssl x509 -noout -modulus -in client.crt | openssl md5
+     openssl rsa -noout -modulus -in client.key | openssl md5
+     ```
+     
+   The MD5 hashes must be identical.  
+* Verify `.p12` file structure**
+   * Confirm the `.p12` actually includes **both** the client cert and the private key:
 
+     ```bash
+     openssl pkcs12 -info -in client.p12 -noout -password pass:MyP12Passw0rd
+     ```
+
+     It should list private key and certificates.
+* Check the `.p12` contents:
+  * The `.p12` **must contain both**:
+    * The **client certificate** (`client.crt`)
+    * The **matching private key** (`client.key`)
+    * (Optionally) the CA chain
+
+      ```bash
+      openssl pkcs12 -info -in client.p12
+      ```
 
 ## 8) Production considerations / hardening
 
