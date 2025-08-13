@@ -1,4 +1,4 @@
-# mTLS (Mutual TLS) Sample Implementation
+# Basic mTLS (Mutual TLS) Implementation
 
 
 ## How it Works in mTLS Trust:
