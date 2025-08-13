@@ -1,2 +1,0 @@
-extendedKeyUsage = clientAuth
-subjectAltName = email:client1@example.local
