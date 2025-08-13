@@ -7,7 +7,7 @@
   or
 * Both certs are signed by **different CAs**, but each side has the **other CA's root (or intermediate) certificate** in its trust store.
 
-1. **Server Validation**:
+1. **Server Validation**: 
 
    * The client verifies the **server’s certificate chain** using the **CA(s)** it trusts.
    * If the server’s cert isn’t signed by a trusted CA → handshake fails.
